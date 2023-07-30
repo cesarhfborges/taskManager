@@ -1,3 +1,17 @@
 :host {
-  
+  //::ng-deep {
+  //  nb-layout-header {
+  //    nav {
+  //      padding: .25rem 1.25rem!important;
+  //      height: unset!important;
+  //      //background: red;
+  //    }
+  //  }
+  //  .layout-container {
+  //    padding-top: 2.75rem!important;
+  //  }
+  //}
+  nb-layout-column {
+    padding: 1.25rem 2.25rem 0.75rem !important;
+  }
 }

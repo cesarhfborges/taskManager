@@ -1,1 +1,41 @@
-<router-outlet></router-outlet>
+<nb-layout>
+
+  <nb-layout-header fixed>
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col" style="line-height: 36px;">
+          Gerenciador de Tarefas diárias
+        </div>
+        <div class="col d-flex justify-content-end" style="max-width: 94px;">
+          <nb-actions size="small">
+<!--            <nb-action class="control-item">-->
+<!--              <nb-search type="rotate-layout"></nb-search>-->
+<!--            </nb-action>-->
+<!--            <nb-action class="control-item" icon="email-outline"></nb-action>-->
+            <nb-action class="control-item" icon="bell-outline"></nb-action>
+          </nb-actions>
+        </div>
+      </div>
+    </div>
+
+  </nb-layout-header>
+
+  <nb-layout-column>
+    <router-outlet></router-outlet>
+  </nb-layout-column>
+
+  <nb-layout-footer>
+
+    <div class="row w-100">
+<!--      <div class="col-6">-->
+<!--        <p class="p-0 m-0">Status: Conectado</p>-->
+<!--      </div>-->
+      <div class="col-12 d-flex justify-content-end">
+        <p class="p-0 m-0">Versão: 1.0.0</p>
+      </div>
+    </div>
+
+  </nb-layout-footer>
+
+</nb-layout>

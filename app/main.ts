@@ -1,4 +1,4 @@
-import {app, BrowserWindow, screen} from 'electron';
+import {app, BrowserWindow, Menu, nativeImage, screen, Tray} from 'electron';
 import * as path from 'path';
 import * as fs from 'fs';
 
@@ -6,22 +6,75 @@ let win: BrowserWindow = null;
 const args = process.argv.slice(1),
   serve = args.some(val => val === '--serve');
 
+const dev = args.some(val => val === '--development')
+
 function createWindow(): BrowserWindow {
 
-  const size = screen.getPrimaryDisplay().workAreaSize;
+  const {workAreaSize} = screen.getPrimaryDisplay();
 
   // Create the browser window.
   win = new BrowserWindow({
-    x: 0,
-    y: 0,
-    width: size.width,
-    height: size.height,
+    // width: size.width,
+    // height: size.height,
+    width: 460,
+    height: 800,
+    x: workAreaSize.width - 460,
+    y: workAreaSize.height - 800,
+    minimizable: false,
+    maximizable: false,
+    frame: dev ?? false,
+    resizable: false,
     webPreferences: {
       nodeIntegration: true,
       allowRunningInsecureContent: (serve),
       contextIsolation: false,  // false if you want to run e2e test with Spectron
     },
+    icon: nativeImage.createFromPath(__dirname + '/../src/assets/icons/clock_icon.png'),
   });
+
+  try {
+    let tray: Tray;
+
+    app.whenReady().then(() => {
+      const icon = nativeImage.createFromPath(__dirname + '/../src/assets/icons/clock_icon64x.png');
+      tray = new Tray(icon);
+
+      const contextMenu = Menu.buildFromTemplate([
+        {
+          label: 'Mostrar/Ocultar', type: 'normal', click: () => {
+            if (win.isVisible()) {
+              win.hide()
+            } else {
+              win.show();
+            }
+          },
+        },
+        {label: '', type: 'separator'},
+        {
+          label: 'Sair', type: 'normal', click: () => {
+            win.removeAllListeners('close');
+            win.close();
+          },
+        },
+      ])
+
+      tray.setToolTip('This is my application.');
+      tray.setContextMenu(contextMenu);
+
+      tray.on('click', function(e){
+        if (win.isVisible()) {
+          win.hide()
+        } else {
+          win.show()
+        }
+      });
+
+    })
+  } catch (e) {
+    console.log('error', e);
+  }
+
+  win.setMenuBarVisibility(false);
 
   if (serve) {
     const debug = require('electron-debug');
@@ -34,7 +87,7 @@ function createWindow(): BrowserWindow {
     let pathIndex = './index.html';
 
     if (fs.existsSync(path.join(__dirname, '../dist/index.html'))) {
-       // Path when running electron in local folder
+      // Path when running electron in local folder
       pathIndex = '../dist/index.html';
     }
 
@@ -48,6 +101,21 @@ function createWindow(): BrowserWindow {
     // in an array if your app supports multi windows, this is the time
     // when you should delete the corresponding element.
     win = null;
+  });
+
+  win.on('minimize',function(event: any){
+    event.preventDefault();
+    win.hide();
+  });
+
+  win.on('close',function(event: any){
+    event.preventDefault();
+    win.hide();
+  });
+
+  win.on('blur',function(event: any){
+    event.preventDefault();
+    win.hide();
   });
 
   return win;

@@ -1,0 +1,22 @@
+{
+  "PAGES": {
+    "HOME": {
+      "TITLE": "App works !",
+      "GO_TO_DETAIL": "Go to Detail"
+    },
+    "DETAIL": {
+      "TITLE": "Detail page !",
+      "BACK_TO_HOME": "Back to Home"
+    }
+  },
+  "BUTTONS": {
+    "KNOB": {
+      "LEFT": "Pot. Esquerdo {{value}}",
+      "CENTER": "Pot. Central {{value}}",
+      "RIGHT": "Pot. Direito {{value}}"
+    },
+    "KEY": "Botão {{value}}",
+    "SAVE": "Salvar",
+    "CANCEL": "Cancelar"
+  }
+}

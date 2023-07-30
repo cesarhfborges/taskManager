@@ -34,6 +34,12 @@
             "prefix": "app",
             "style": "kebab-case"
           }
+        ],
+        "@typescript-eslint/naming-convention": [
+          "error",
+          {
+            "selector": "variableLike", "format": ["snake_case", "camelCase"]
+          }
         ]
       }
     },
